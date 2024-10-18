@@ -12,8 +12,9 @@ import UserNotifications    // 追加
 
 class InputViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var contentstextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var categoryTxt: UITextField!
+    @IBOutlet weak var contentsTxtView: UITextView!
     
     let realm = try! Realm()
     var task: Task!   // 追加する
@@ -28,7 +29,8 @@ class InputViewController: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
 
         titleTextField.text = task.title
-        contentstextView.text = task.contents
+        categoryTxt.text = task.category
+        contentsTxtView.text = task.contents
         datePicker.date = task.date
 
     }
@@ -36,7 +38,8 @@ class InputViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         try! realm.write {
             self.task.title = self.titleTextField.text!
-            self.task.contents = self.contentstextView.text
+            self.task.category = self.categoryTxt.text!
+            self.task.contents = self.contentsTxtView.text
             self.task.date = self.datePicker.date
             self.realm.add(self.task, update: .modified)
         }
@@ -53,7 +56,7 @@ class InputViewController: UIViewController {
         if task.title == "" {
             content.title = "(タイトルなし)"
         } else {
-            content.title = task.title
+            content.title = task.title + "　#" + task.category
         }
         if task.contents == "" {
             content.body = "(内容なし)"

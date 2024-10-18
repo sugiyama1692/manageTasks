@@ -13,6 +13,9 @@ class Task: Object {
 
     // タイトル
     @Persisted var title = ""
+    
+    // カテゴリ
+    @Persisted var category = ""
 
     // 内容
     @Persisted var contents = ""
