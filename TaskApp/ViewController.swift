@@ -52,14 +52,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let searchCondition:String! = searchBar.text
+        let latestTasks = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: true)
         tableView.reloadData()
         if searchCondition == "" {
+            taskArray = latestTasks
             tableView.reloadData()
         } else {
-            var cachedtask = taskArray
-            taskArray = taskArray.where({ $0.category.contains(searchCondition) }).sorted(byKeyPath: "date", ascending: true)
+            taskArray = latestTasks.where({ $0.category.contains(searchCondition) }).sorted(byKeyPath: "date", ascending: true)
             tableView.reloadData()
-            taskArray = cachedtask
         }
     }
     
